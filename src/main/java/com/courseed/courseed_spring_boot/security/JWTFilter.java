@@ -21,7 +21,6 @@ public class JWTFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
 
-    @SuppressWarnings("null")
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = extractBearerToken(request);
@@ -35,7 +34,7 @@ public class JWTFilter extends OncePerRequestFilter {
     private String extractBearerToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            return bearerToken.substring(BEARER_PREFIX.length());
+            return bearerToken.substring(7);
         }
         return null;
     }
