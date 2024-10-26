@@ -1,14 +1,28 @@
-import { useAuth } from "../provider/AuthProvider";
 import { Navigate, Outlet } from "react-router-dom";
+import { useIsAdmin, useIsAuth, useIsUser } from "../provider/AuthProvider";
 
 const ProtectedRoute = () => {
-    const { token } = useAuth();
-    
-    if (!token) {
-        return <Navigate to="/acceso" />
-    }
+    const isAuth = useIsAuth();
 
-    return <Outlet />
+    if (isAuth === null) return null;
+
+    return isAuth ? <Outlet /> : <Navigate to="/acceso" />;
 }
 
-export { ProtectedRoute };
+const ProtectedAdminRoute = () => {
+    const isAdmin = useIsAdmin();
+
+    if (isAdmin === null) return null;
+
+    return isAdmin ? <Outlet /> : <Navigate to="/acceso" />
+}
+
+const ProtectedUserRoute = () => {
+    const isUser = useIsUser();
+
+    if (isUser === null) return null;
+
+    return isUser ? <Outlet /> : <Navigate to="/acceso" />
+}
+
+export { ProtectedRoute, ProtectedAdminRoute, ProtectedUserRoute };

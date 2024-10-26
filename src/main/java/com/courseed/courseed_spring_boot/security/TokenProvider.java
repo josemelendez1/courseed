@@ -36,6 +36,10 @@ public class TokenProvider {
 
     private final AuthenticationManager authenticationManager;
 
+    public AuthenticationManager getAuthenticationManager() {
+        return authenticationManager;
+    }
+
     public TokenProvider(@Lazy AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
@@ -54,7 +58,8 @@ public class TokenProvider {
                 .signWith(getSecretKey()).compact();
     }
 
-   public Authentication setAuthentication(String token) {
+    @SuppressWarnings("unchecked")
+    public Authentication setAuthentication(String token) {
         Claims payload = parseClaimsFromToken(token);
         String username = payload.getSubject();
         List<String> authorities = payload.get("authorities", ArrayList.class);

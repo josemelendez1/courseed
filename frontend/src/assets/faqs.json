@@ -1,0 +1,82 @@
+[
+    {
+        "title": "¿Cómo puedo registrarme en la aplicación?",
+        "description": "Para registrarte, simplemente haz clic en 'Registrarse' en la página de inicio y completa el formulario con tus datos personales. Recibirás un correo de confirmación para activar tu cuenta."
+    },
+    {
+        "title": "¿Qué tipo de cursos están disponibles en la app?",
+        "description": "Ofrecemos una amplia variedad de cursos en áreas como tecnología, negocios, diseño, idiomas y más. Puedes explorar todas las categorías disponibles en nuestra sección de cursos."
+    },
+    {
+        "title": "¿Cómo puedo buscar un curso específico?",
+        "description": "Utiliza la barra de búsqueda en la parte superior de la página para ingresar palabras clave, temas o nombres de cursos. También puedes filtrar los resultados por categoría, nivel y duración."
+    },
+    {
+        "title": "¿Cómo puedo inscribirme en un curso?",
+        "description": "Encuentra el curso que te interesa, haz clic en él para ver los detalles y selecciona la opción 'Inscribirse'. Sigue las instrucciones para completar la inscripción y el pago, si es necesario."
+    },
+    {
+        "title": "¿Qué hago si olvido mi contraseña?",
+        "description": "Haz clic en 'Olvidé mi contraseña' en la página de inicio de sesión y sigue las instrucciones para restablecer tu contraseña a través del correo electrónico que utilizaste para registrarte."
+    },
+    {
+        "title": "¿Puedo probar un curso antes de inscribirme?",
+        "description": "Algunos cursos ofrecen una vista previa gratuita o una clase de muestra. Revisa la página del curso para ver si esta opción está disponible."
+    },
+    {
+        "title": "¿Cómo se actualizan mis datos personales?",
+        "description": "Inicia sesión en tu cuenta, ve a 'Mi perfil' y selecciona 'Editar perfil' para actualizar tu información personal."
+    },
+    {
+        "title": "¿Puedo cancelar mi inscripción en un curso?",
+        "description": "La política de cancelación varía según el curso. Consulta la sección de 'Política de reembolso' en la página del curso o contacta con nuestro soporte para obtener más información."
+    },
+    {
+        "title": "¿Cómo puedo contactar con el instructor de un curso?",
+        "description": "En la página del curso, busca la sección de 'Contacto con el instructor' o utiliza la opción de mensajería en tu perfil para enviar un mensaje directo."
+    },
+    {
+        "title": "¿Los cursos ofrecen certificación?",
+        "description": "Muchos de nuestros cursos ofrecen un certificado de finalización. Consulta la descripción del curso para verificar si se proporciona un certificado y los requisitos para obtenerlo."
+    },
+    {
+        "title": "¿Puedo acceder a los cursos en mi móvil?",
+        "description": "Sí, nuestra aplicación es compatible con dispositivos móviles y te permite acceder a los cursos desde tu smartphone o tablet."
+    },
+    {
+        "title": "¿Cómo se realiza el pago de un curso?",
+        "description": "Los pagos se pueden realizar mediante tarjeta de crédito, débito o plataformas de pago en línea. Selecciona tu método de pago preferido durante el proceso de inscripción."
+    },
+    {
+        "title": "¿Qué hago si tengo problemas técnicos con la app?",
+        "description": "Si experimentas problemas técnicos, por favor contacta con nuestro soporte técnico a través de [soporte@ejemplo.com](mailto:soporte@ejemplo.com) y proporciona detalles sobre el problema que estás enfrentando."
+    },
+    {
+        "title": "¿Cómo puedo dejar una reseña de un curso?",
+        "description": "Después de completar un curso, puedes dejar una reseña en la página del curso. Inicia sesión, accede a 'Mis cursos' y selecciona el curso que deseas evaluar."
+    },
+    {
+        "title": "¿Qué hacer si no recibo el correo de confirmación?",
+        "description": "Revisa tu carpeta de spam o correo no deseado. Si aún no encuentras el correo, solicita un nuevo enlace de confirmación en la página de inicio de sesión o contacta con soporte."
+    },
+    {
+        "title": "¿Puedo cambiar el curso una vez inscrito?",
+        "description": "Las solicitudes de cambio de curso están sujetas a las políticas de la plataforma. Contacta con nuestro soporte para discutir las opciones disponibles."
+    },
+    {
+        "title": "¿Los cursos tienen fechas de inicio y fin?",
+        "description": "Algunos cursos son auto-pace y no tienen fechas específicas. Otros pueden tener fechas de inicio y fin programadas. Revisa la página del curso para obtener detalles específicos."
+    },
+    {
+        "title": "¿Cómo puedo obtener ayuda adicional para mi aprendizaje?",
+        "description": "Puedes acceder a foros de discusión, grupos de estudio y materiales complementarios dentro de la app. Además, muchos cursos ofrecen soporte adicional a través de la plataforma."
+    },
+    {
+        "title": "¿Puedo compartir mi cuenta con otra persona?",
+        "description": "No, las cuentas deben ser personales y no deben compartirse. Cada usuario debe tener su propia cuenta para acceder a los cursos y materiales."
+    },
+    {
+        "title": "¿Cómo se garantiza la calidad de los cursos ofrecidos?",
+        "description": "Los cursos son revisados y aprobados por nuestro equipo de calidad antes de ser publicados. Además, los instructores son expertos en sus campos y se someten a un proceso de evaluación."
+    }
+]

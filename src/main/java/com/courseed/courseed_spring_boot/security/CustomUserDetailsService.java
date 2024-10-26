@@ -34,17 +34,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(userName, password, grantedAuthorities);
     }
 
-    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()) {
-            throw new UsernameNotFoundException("User with email: "+ email + " not found");
-        }
-        String userName = user.get().getUsername();
-        String password = user.get().getPassword();
-        List<SimpleGrantedAuthority> grantedAuthorities = mapAuthorityToSimpleGrantedAuthority(user.get().getAuthorities());
-        return new org.springframework.security.core.userdetails.User(userName, password, grantedAuthorities);
-    }
-
     private List<SimpleGrantedAuthority> mapAuthorityToSimpleGrantedAuthority(Set<Authority> authorities) {
         return authorities.stream().map(Authority::getAuthority).map(SimpleGrantedAuthority::new).toList();
     }
