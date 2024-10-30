@@ -2,6 +2,7 @@ package com.courseed.courseed_spring_boot.service;
 
 import lombok.AllArgsConstructor;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -125,8 +126,12 @@ public class UserService {
         List<UserDto> userDtos = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            username = faker.name().fullName();
+            username = StringUtils.stripAccents(faker.name().fullName())
+                .toLowerCase()
+                .replaceAll("[^a-z]", "");
+
             authority = (i < 5) ? "ROLE_USER" : "ROLE_ADMIN";
+
             if (userRepository.findByUsername(username).isEmpty()) {
                 User user = new User();
                 user.setUsername(username);
