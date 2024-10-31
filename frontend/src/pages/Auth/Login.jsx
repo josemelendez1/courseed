@@ -149,7 +149,7 @@ const Login = () => {
                         </article>
                         <form onSubmit={handleLogin} className="w-full mt-4">
                             <motion.div variants={itemMotion} className="w-full">
-                                <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Nombre de usuario o email</label>
+                                <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Nombre de usuario</label>
                                 <input
                                     id="name"
                                     type="text"

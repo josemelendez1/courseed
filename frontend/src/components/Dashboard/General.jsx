@@ -31,7 +31,7 @@ const General = ({ user }) => {
                     "
                 >
                     <p className="text-sm text-gray-400 inline-flex items-center gap-1">
-                        Nombre de usuario o email
+                        Nombre de usuario
                         <User className="size-5 text-sky-600" />
                     </p>
                     <p className="w-full text-base font-medium text-[#1B254B] dark:text-white py-0 sm:py-1">

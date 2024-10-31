@@ -179,7 +179,7 @@ const Register = () => {
                         </article>
                         <form onSubmit={(e) => handleRegister(e)} className="w-full mt-4">
                             <motion.div variants={itemMotion} className="w-full">
-                                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">Nombre de usuario o email</label>
+                                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">Nombre de usuario</label>
                                 <input
                                     id="username"
                                     type="text"
