@@ -17,7 +17,7 @@ IMAGES_STORE = "../frontend/public/images/courses"
 #USER_AGENT = "scrapy_courseed (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -63,10 +63,9 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    "scrapy.pipelines.images.ImagesPipeline": 1,
-    "scrapy_courseed.pipelines.TransformPipeline": 2,
-    "scrapy_courseed.pipelines.TranslatePipeline": 3,
-    "scrapy_courseed.pipelines.MigratePipeline": 4
+    # "scrapy.pipelines.images.ImagesPipeline": 1,
+    # "scrapy_courseed.pipelines.TransformPipeline": 2,
+    # "scrapy_courseed.pipelines.MigratePipeline": 3
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
