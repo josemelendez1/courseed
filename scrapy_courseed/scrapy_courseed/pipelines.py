@@ -26,58 +26,24 @@ class TransformPipeline:
 
         #Courses
         adapter["title"] = adapter.get("title").strip() if adapter.get("title") is not None else ""
-        
-        if (adapter.get("description") is not None):
-            adapter["description"] = "".join(Selector(text=adapter.get("description")).css("*::text").getall()).strip()
-        
-        adapter["price"] = float(adapter.get("price")) if (adapter.get("price") is not None and adapter.get("price").isnumeric()) else 0
+        adapter["description"] = adapter.get("description").strip() if adapter.get("description") is not None else ""
+        adapter["price"] = adapter.get("price").strip() if adapter.get("price") is not None else ""
         adapter["duration"] = adapter.get("duration").strip() if adapter.get("duration") is not None else ""
 
         #About
-        if (adapter.get("about_description") is not None):
-            adapter["about_description"] = "".join(Selector(text=adapter.get("about_description")).css("*::text").getall()).replace("\n", "").strip()
-
+        adapter["about_description"] = adapter.get("about_description").strip() if adapter.get("about_description") is not None else ""
         adapter["about_level"] = adapter.get("about_level").strip() if adapter.get("about_level") is not None else ""
-        
-        if (adapter.get("about_prerequisites") is not None):
-            adapter["about_prerequisites"] = "".join(Selector(text=adapter.get("about_prerequisites")).css("*::text").getall()).strip()
-        
+        adapter["about_prerequisites"] = adapter.get("about_prerequisites").strip() if adapter.get("about_prerequisites") is not None else ""
         adapter["about_language"] = adapter.get("about_language").strip() if adapter.get("about_language") is not None else ""
 
         #Contents
-        transorm_contents = []
-        if (adapter.get("contents") is not None and adapter.get("contents") != ""):
-            for text in Selector(text=adapter.get("contents")).css("*::text").getall():
+        transform_contents = []
+        if (isinstance(adapter.get("contents"), list)):
+            for text in adapter.get("contents"):
                 if text is not None and text.strip() != "":
-                    transorm_contents.append(text.strip())
+                    transform_contents.append(text.strip())
 
-        adapter["contents"] = transorm_contents
-
-        return item
-    
-class TranslatePipeline:
-    def process_item(self, item, spider):
-        translator = Translator()
-        adapter = ItemAdapter(item)
-        
-        #Category
-        adapter["category_name"] = translator.translate(adapter.get("category_name"), src="en", dest="es").text
-
-        #Course
-        adapter["title"] = translator.translate(adapter.get("title"), src="en", dest="es").text
-        adapter["description"] = translator.translate(adapter.get("description"), src="en", dest="es").text
-        adapter["duration"] = translator.translate(adapter.get("duration"), src="en", dest="es").text
-
-        #About
-        adapter["about_description"] = translator.translate(adapter.get("about_description"), src="en", dest="es").text
-        adapter["about_level"] = translator.translate(adapter.get("about_level"), src="en", dest="es").text
-        
-        if (adapter.get("about_prerequisites") is not None and adapter.get("about_prerequisites").strip() != ""): 
-            adapter["about_prerequisites"] = translator.translate(adapter.get("about_prerequisites"), src="en", dest="es").text
-
-        #Contents
-        for index, text in enumerate(adapter.get("contents")):
-            adapter["contents"][index] = translator.translate(text, src="en", dest="es").text
+        adapter["contents"] = transform_contents
 
         return item
     
