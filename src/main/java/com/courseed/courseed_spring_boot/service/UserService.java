@@ -3,6 +3,8 @@ package com.courseed.courseed_spring_boot.service;
 import lombok.AllArgsConstructor;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -48,10 +50,12 @@ public class UserService {
 
     private final AuthenticationManager authenticationManager;
 
+    @Cacheable("users")
     public Page<UserDto> getUsers(int pageNo, int pageSize) {
         return userRepository.findAll(PageRequest.of(pageNo, pageSize)).map(UserDto::fromEntity);
     }
 
+    @Cacheable("users")
     public UserDto register(RegisterUserDto registerUserDto) {
         User user = new User();
         user.setUsername(registerUserDto.getUsername());
@@ -63,6 +67,11 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         return new UserDto(savedUser.getUsername(), registerUserDto.getPassword());
+    }
+
+    @CacheEvict(value = "users", key = "#id")
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 
     public Optional<User> findByUserName(String name) {

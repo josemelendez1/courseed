@@ -1,5 +1,6 @@
 package com.courseed.courseed_spring_boot.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
