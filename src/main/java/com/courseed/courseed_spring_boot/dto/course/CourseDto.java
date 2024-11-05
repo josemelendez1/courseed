@@ -17,7 +17,7 @@ public class CourseDto {
     private String video;
     private String title;
     private String description;
-    private Float price;
+    private String price;
     private String duration;
     private String category;
     private String institution;

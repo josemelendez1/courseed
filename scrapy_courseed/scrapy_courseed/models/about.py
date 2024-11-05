@@ -5,7 +5,6 @@ class About (Model):
     id = BigAutoField()
     description = TextField()
     level = CharField()
-    prerequisites = TextField()
     language = CharField()
     course_id = BigIntegerField()
     

@@ -48,7 +48,7 @@ public class Course {
     private String description;
 
     @Column(nullable = false)
-    private Float price;
+    private String price;
 
     @Column(nullable = false)
     private String duration;
