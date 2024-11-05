@@ -31,9 +31,6 @@ public class About {
     @Column(nullable = false)
     private String level;
 
-    @Column(nullable = true, columnDefinition = "TEXT")
-    private String prerequisites;
-
     @Column(nullable = false)
     private String language;
 

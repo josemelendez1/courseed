@@ -1,4 +1,4 @@
-from peewee import Model, CharField, FloatField, TextField, BigAutoField, BigIntegerField
+from peewee import Model, CharField, TextField, BigAutoField, BigIntegerField
 from ..database.mysql import database
 
 class Course (Model):
@@ -8,7 +8,7 @@ class Course (Model):
     video = TextField()
     title = CharField()
     description = TextField()
-    price = FloatField()
+    price = TextField()
     duration = CharField()
     category_id = BigIntegerField()
     institution_id = BigIntegerField()

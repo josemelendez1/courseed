@@ -23,7 +23,6 @@ class CourseItem (scrapy.Item):
     #About
     about_description = scrapy.Field()
     about_level = scrapy.Field()
-    about_prerequisites = scrapy.Field()
     about_language = scrapy.Field()
 
     #Contents

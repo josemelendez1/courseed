@@ -12,14 +12,12 @@ public class AboutDto {
     private String description;
     private String language;
     private String level;
-    private String prerequisites;
     
     public static AboutDto fromEntity(About about) {
         return new AboutDto(
             about.getDescription(),
             about.getLanguage(),
-            about.getLevel(),
-            about.getPrerequisites()
+            about.getLevel()
         );
     }
 }
