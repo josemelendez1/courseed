@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../components/Landing/Footer";
 import { HeadProvider } from "../../provider/HeadProvider";
 import {
@@ -54,18 +54,41 @@ const Courses = () => {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedInstitutions, setSelectedInstitutions] = useState([]);
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
     const [isPaleteCategoryOpen, setIsPaleteCategoryOpen] = useState(false);
     const [isPaleteInstitutionOpen, setIsPaleteInstitutionOpen] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
 
-    const coursesRef = useRef();
-    const buttonMoreContentRef = useRef();
+    const [titleRef, setTitleRef] = useState();
 
-    const handleCourses = (search) => {
-        if (!isVisible) return;
+    const handleCourses = () => {
+        setLoading(true);
 
         axios
             .get(APIS.GET_COURSES, {
+                params: {
+                    title: search,
+                    pageSize: pageSize,
+                    pageNo: 0,
+                    categories: selectedCategories.toString(),
+                    institutions: selectedInstitutions.toString(),
+                },
+            })
+            .then((response) => {
+                setCoursesNo(response.data.totalElements);
+                setCourses(response.data.content ? response.data.content : []);
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1000);
+            });
+    };
+
+    const handleCoursesPagination = () => {
+        if (pageNo > 0) {
+            setLoadingPagination(true);
+
+            axios.get(APIS.GET_COURSES, {
                 params: {
                     title: search,
                     pageSize: pageSize,
@@ -74,31 +97,24 @@ const Courses = () => {
                     institutions: selectedInstitutions.toString(),
                 },
             })
-            .then((response) => {
-                if (!Array.isArray(response.data?.content)) return;
-
-                setCoursesNo(response.data.totalElements);
-                setCourses(prev => pageNo > 0 
-                    ? [...prev, ...response.data.content]
-                    : response.data.content
-                );
-            })
-            .finally(() => {
-                setLoadingPagination(false);
-                setTimeout(() => setLoading(false), 500); 
-            });
-    };
+                .then(response => {
+                    setCourses([...courses, ...response.data.content ? response.data.content : []])
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        setLoadingPagination(false);
+                    }, 1000);
+                })
+        }
+    }
 
     const handleCategories = () => {
-        if (!isVisible) return;
         axios.get(APIS.GET_CATEGORIES).then((response) => {
             setCategories(response.data ? response.data : []);
         });
     };
 
     const handleInstitutions = () => {
-        if (!isVisible) return;
-
         axios.get(APIS.GET_INSTITUTIONS).then((response) => {
             setInstitutions(response.data ? response.data : []);
         });
@@ -126,29 +142,17 @@ const Courses = () => {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        handleCourses(search);
+        handleCourses();
         setPageNo(0);
     }
 
     useEffect(() => {
-        const observer = new IntersectionObserver(entries => {
-            const [entry] = entries;
-            if (entry.isIntersecting) {
-                setIsVisible(true);
-                observer.disconnect();
-            }
-        });
-
-        if (coursesRef.current) observer.observe(coursesRef.current);
-
-        return () => {
-            if (observer) observer.disconnect();
-        }  
-    }, [coursesRef]);
-
-    useEffect(handleCategories, [isVisible]);
-    useEffect(handleInstitutions, [isVisible]);
-    useEffect(handleCourses, [selectedCategories, selectedInstitutions, pageNo, isVisible]);
+        handleCourses();
+        handleCategories();
+        handleInstitutions();
+    }, []);
+    useEffect(handleCourses, [selectedCategories, selectedInstitutions]);
+    useEffect(handleCoursesPagination, [pageNo]);
     useEffect(() => { window.scrollTo(0, 0) }, []);
 
     return (
@@ -156,15 +160,15 @@ const Courses = () => {
             <HeadProvider title="CourSeed | Cursos" />
             <HeroWithBackgroundAsImage 
                 onClick={() => {
-                    if (coursesRef.current) {
-                        coursesRef.current.scrollIntoView({ behavior: "smooth" });   
+                    if (titleRef) {
+                        titleRef.scrollIntoView({ behavior: "smooth" });   
                     }
                 }} 
             />
             <AnimationRevealPage>
-                <div ref={coursesRef} className="relative">
+                <div className="relative">
                     <div className="max-w-screen-xl mx-auto pt-10">
-                        <div className="flex flex-col md:flex-row gap-6 md:items-center justify-between pb-2">
+                        <div className="flex flex-col md:flex-row gap-6 md:items-center justify-between">
                             <AnimatePresence mode="wait">
                                 <motion.div
                                     key={loading ? "skeleton" : "results"}
@@ -182,7 +186,7 @@ const Courses = () => {
                                             <div className="h-10 bg-slate-300 rounded col-span-8 row-start-2 md:row-start-1 col-start-3 md:col-start-7"></div>
                                         </div>
                                         :
-                                        <h1 className="font-bold text-3xl md:text-3xl lg:text-4xl xl:text-5xl text-gray-900 leading-tight py-6">
+                                        <h1 ref={setTitleRef} className="font-bold text-3xl md:text-3xl lg:text-4xl xl:text-5xl text-gray-900 leading-tight py-6">
                                             {coursesNo} <span className="text-sky-600">cursos</span> encontrados.
                                         </h1>
                                     }
@@ -227,7 +231,7 @@ const Courses = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="sm:border-b sm:border-gray-200">
+                        <div className={`sm:border-b sm:border-gray-200 ${(selectedCategories.length > 0 || selectedInstitutions.length > 0) && "py-6"}`}>
                             <BadgesFlex
                                 title="Categorias Seleccionadas"
                                 badges={selectedCategories}
@@ -237,6 +241,7 @@ const Courses = () => {
                                 title="Instituciones Seleccionadas"
                                 badges={selectedInstitutions}
                                 setBadges={(value) => setSelectedInstitutions(value)}
+                                className={selectedInstitutions.length > 0 && selectedCategories.length > 0 ? "mt-6" : ""}
                             />
                         </div>
                     </div>
@@ -253,10 +258,8 @@ const Courses = () => {
                             <h2 id="products-heading" className="sr-only">
                                 Cursos
                             </h2>
-                            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5 relative">
-                                <form
-                                    className="hidden lg:block relative"
-                                >
+                            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
+                                <form className="hidden lg:block">
                                     <h3 className="sr-only">Filtrar Resultados</h3>
                                     <Disclosure
                                         as="div"
@@ -421,29 +424,28 @@ const Courses = () => {
                                         {loading
                                             ? Array(pageSize)
                                                 .fill(1)
-                                                .map((x, i) => <CourseSkeleton key={i} className="w-[calc(100%-3rem)] my-[1.75rem]" />)
-                                            : courses.map((course) => (
-                                                <motion.div key={course.title} variants={item}>
-                                                    <Course course={course} className={"my-[1.75rem] w-[calc(100%-3rem)]"} descriptionClassName={"lg:line-clamp-2"} />
+                                                .map((x, i) => <CourseSkeleton key={i} />)
+                                            : courses.map((course, i) => (
+                                                <motion.div key={i} variants={item}>
+                                                    <Course course={course} className={"my-8"} />
                                                 </motion.div>
                                             ))}
                                     </motion.div>
                                 </AnimatePresence>
-                            </div>
-                            <div className="flex items-center justify-center w-full mt-6">
-                                <button
-                                    ref={buttonMoreContentRef}
-                                    onClick={() => setPageNo(pageNo + 1)}
-                                    className="text-lg lg:text-sm my-2 lg:my-0 font-semibold tracking-wide transition duration-300
-                                    px-6 py-[.7rem] rounded-3xl bg-sky-600 text-gray-50 hover:bg-sky-700 hover:text-white 
-                                    ring-2 ring-transparent focus:ring-sky-500 flex items-center gap-3"
-                                >
-                                    <span>Ver mas contenido</span>
-                                    {loadingPagination
-                                        ? <LoaderCircle className="size-5 animate-spin" />
-                                        : <ChevronDown className="size-5" />}
+                                <div className="flex items-center justify-center w-full lg:col-span-4 lg:col-start-2 mt-6">
+                                    <button
+                                        onClick={() => setPageNo(pageNo + 1)}
+                                        className="text-lg lg:text-sm my-2 lg:my-0 font-semibold tracking-wide transition duration-300
+                                        px-6 py-[.7rem] rounded-3xl bg-sky-600 text-gray-50 hover:bg-sky-700 hover:text-white 
+                                        ring-2 ring-transparent focus:ring-sky-500 flex items-center gap-3"
+                                    >
+                                        <span>Ver mas contenido</span>
+                                        {loadingPagination
+                                            ? <LoaderCircle className="size-5 animate-spin" />
+                                            : <ChevronDown className="size-5" />}
 
-                                </button>
+                                    </button>
+                                </div>
                             </div>
                         </section>
                     </div>

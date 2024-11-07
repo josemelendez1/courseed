@@ -13,7 +13,7 @@ class UnimagdalenaSpider(scrapy.Spider):
 
     def parse(self, response):
         next_page = response.css("span.page-numbers.current").xpath("following-sibling::a/@href").get()
-        current_category = response.meta.get("category") if response.meta.get("category") else response.css("li.current-menu-item a::text").get()
+        current_category = response.css("li.current-menu-item a::text").get()
         next_category = response.css("li.current-menu-item").xpath("following-sibling::li/a/@href").get()
         courses = response.css("article.elementor-grid-item").getall()
 
@@ -30,13 +30,7 @@ class UnimagdalenaSpider(scrapy.Spider):
             )
 
         if next_page is not None:
-            yield scrapy.Request(
-                url=next_page, 
-                callback=self.parse, 
-                meta={
-                    "category": current_category
-                }
-            )
+            yield scrapy.Request(url=next_page, callback=self.parse)
 
         if next_category is not None:
             yield scrapy.Request(url=next_category, callback=self.parse)

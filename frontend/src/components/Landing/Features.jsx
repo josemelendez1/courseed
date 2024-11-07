@@ -124,9 +124,7 @@ const StepsFeature = ({
                                         {( i + 1).toString().padStart(2,'0')}
                                     </div>
                                     <div className="mt-3 md:mt-0 md:ml-6">
-                                        <p className="max-w-xs sm:max-w-sm leading-loose text-sm sm:text-base text-gray-900 font-medium line-clamp-4">
-                                            {content.name}
-                                        </p>
+                                        <p className="max-w-xs sm:max-w-sm leading-loose text-sm sm:text-base text-gray-900 font-medium">{content.name}</p>
                                     </div>
                                 </li>
                             ))}

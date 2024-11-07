@@ -20,8 +20,7 @@ const HeroWithBackgroundSingle = ({
     subtitle = "Encuentra el curso perfecto para ti, al alcance de un clic.",
     bgImage = "/pexels-julia-m-cameron-4144923.jpg",
     video = false,
-    link = "/",
-    defaultSubtitle = "Actualmente no hay información disponible sobre este curso. Por favor, vuelve más tarde para obtener detalles actualizados y completos."
+    link = "/"
 }) => {
     return (
         <motion.div
@@ -38,10 +37,7 @@ const HeroWithBackgroundSingle = ({
                     <div className="lg:pt-24 sm:pb-32 sm:px-4 grid justify-between items-center grid-cols-1 lg:grid-cols-[55%_45%] lg:gap-x-4">
                         <div className="flex flex-col items-center lg:block">
                             <p title={subtitle} className="text-justify max-w-[90%] line-clamp-2 my-4 pl-3 py-1 text-gray-100 border-l-4 border-blue-500 font-medium text-sm">
-                                {(subtitle && subtitle.toLocaleLowerCase() !== "no aplica") 
-                                ? subtitle
-                                : defaultSubtitle
-                                }
+                                {subtitle}
                             </p>
                             <h1 className="text-3xl text-center lg:text-left sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-100">
                                 <span title={title} className="line-clamp-2">{title}</span>
@@ -71,8 +67,8 @@ const HeroWithBackgroundSingle = ({
                             ) : (
                                 <img 
                                     src={bgImage}
-                                    alt="imagen de curso"
-                                    className="relative rounded aspect-[16/9] w-full object-cover"
+                                    alt="imagen de curso" 
+                                    className="relative rounded w-full h-auto" 
                                 />
                             )}
                         </div>

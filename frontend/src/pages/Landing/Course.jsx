@@ -45,7 +45,7 @@ const Course = () => {
         {
             icon: <CircleDollarSign className="size-6" />,
             title: "Precio",
-            description: <>Curso disponible a un increíble precio: <span className="text-sky-600">{course?.price === "$0" ? 'Gratuito' : `${course?.price}`}</span>.</>,
+            description: <>Curso disponible a un increíble precio: <span className="text-sky-600">{course?.price === 0 ? 'Gratuito' : `$${course?.price}`}</span>.</>,
         },
         {
             icon: <CalendarDays className="size-6" />,
@@ -92,14 +92,7 @@ const Course = () => {
                 <StepsFeature 
                     subTitle="Lo que aprenderás"
                     title={<>Descubre Todo lo que <span className="text-sky-600">Aprenderás</span> en Nuestro Curso.</>}
-                    contents={course?.contents?.slice(0, 3).map(content => {
-                        return typeof content?.name === "string" 
-                            ? {
-                                ...content,
-                                name: content.name.charAt(0).toUpperCase() + content.name.slice(1)
-                            } 
-                            : content
-                    })}
+                    contents={course?.contents?.slice(0, 3)}
                 />
                 <Footer />
             </AnimationRevealPage>
