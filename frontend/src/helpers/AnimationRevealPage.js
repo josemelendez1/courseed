@@ -49,7 +49,7 @@ function AnimatedSlideInComponent({ direction = "left", offset = 30, children })
 }
 
 export default (props) => (
-    <div className={`font-display min-h-screen text-secondary-500 p-8 overflow-hidden`}>
+    <div className={`font-display min-h-screen p-8 overflow-hidden relative`}>
         <AnimationReveal {...props} />
     </div>
 );

@@ -11,7 +11,6 @@ const Hero = () => {
     const pageSize = 12;
     const [isFocus, setIsFocus] = useState(false);
     const [pageNo, setPageNo] = useState(0);
-    const [totalPagesNo, setTotalPagesNo] = useState(1);
     const [search, setSearch] = useState("");
     const [courses, setCourses] = useState([]);
     const [commandPaleteOpen, setCommandPaleteOpen] = useState(false);
@@ -25,7 +24,6 @@ const Hero = () => {
             }
         })
             .then(response => {
-                setTotalPagesNo(response.data.totalPages);
                 setCourses(courses => [
                     ...pageNo > 0 ? courses : [],
                     ...response.data.content ? response.data.content : []
@@ -38,7 +36,7 @@ const Hero = () => {
         if (bottom) setPageNo(pageNo + 1);
     }
 
-    useEffect(handleCourses, [pageNo, search, totalPagesNo]);
+    useEffect(handleCourses, [pageNo, search]);
 
     const keyDownHandler = (event) => {
         if (event.ctrlKey && event.key === "k") {
@@ -135,7 +133,7 @@ const Hero = () => {
                                 className="flex items-center gap-1 font-medium text-gray-800"
                             >
                                 <img src="/icons8-x.svg" alt="X" className="h-[3.75rem] w-auto" />
-                                <span>Twiteer</span>
+                                <span>X</span>
                             </Link>
                         </div>
                     </div>
