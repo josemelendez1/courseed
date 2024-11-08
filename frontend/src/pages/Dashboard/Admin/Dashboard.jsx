@@ -119,6 +119,10 @@ const Dashboard = () => {
         })
     }
 
+    const truncateText = (text, maxLength = 10) => {
+        return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+    };
+
     useEffect(handleCourses, [pageNo, search]);
     useEffect(handleCategories, []);
     useEffect(handleInstitutions, []);
@@ -161,17 +165,25 @@ const Dashboard = () => {
                                 <StatsCard title="Cursos de Interes" icon={<Heart className="size-6" />} subtitle={`${totalLikedCourses} / ${totalCourses}`} />
                                 <StatsCard title="Opiniones" icon={<MessageCircle className="size-6" />} subtitle={totalComments} />
                             </div>
-                            <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+                            <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-[62.5%_1fr]">
                                 <BarChart
-                                    title="Cursos de Mayor Interes"
-                                    data={coursesByLikes}
-                                    dataX="title"
-                                    dataY="likes"
+                                    title="Cursos más populares"
+                                    data={coursesByLikes.map(c => {
+                                        return {
+                                            id: c?.id,
+                                            title: truncateText(c?.title),
+                                            Interesados: c?.likes,
+                                        }
+                                    })}
+                                    categories={["Interesados"]}
+                                    index="title"
                                 />
                                 <PieChart 
-                                    title="Instituciones con Mayores Cursos"
+                                    index="name"
+                                    category="courses"
+                                    title="Proporción de cursos ofrecidos"
+                                    categories={institutionsByCourses.map(i => i.name)}
                                     data={institutionsByCourses}
-                                    dataValue="courses"
                                 />
                             </div>
                         </div>
