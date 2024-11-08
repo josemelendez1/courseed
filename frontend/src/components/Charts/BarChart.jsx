@@ -6,8 +6,8 @@ import { BarChart as BarChartTremor } from '@tremor/react';
 
 const container = {
     hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.2, type: "keyframes" } },
-    exit: { y: -20, opacity: 0, transition: { duration: 0.2, type: "keyframes" } }
+    visible: { y: 0, opacity: 1 },
+    exit: { y: -20, opacity: 0 }
 }
 
 const BarChart = ({
@@ -52,14 +52,13 @@ const BarChart = ({
                                 index={index}
                                 categories={categories}
                                 colors={["sky-600", "sky-800"]}
-                                showAnimation={true}
                                 onValueChange={(v) => {}}
                                 allowDecimals={false}
                                 noDataText="Sin información"
                                 className="h-80"
                             />
                         ) : (
-                            <div className="w-full flex items-center justify-center">
+                            <div className="w-full flex items-center justify-center h-80">
                                 <LoaderCircle className="size-8 animate-spin text-gray-400" />
                             </div>
                         )}
