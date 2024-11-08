@@ -1,5 +1,7 @@
 package com.courseed.courseed_spring_boot.dto.user;
 
+import java.io.Serializable;
+
 import com.courseed.courseed_spring_boot.validator.annotation.ExistUserByUsername;
 import com.courseed.courseed_spring_boot.validator.annotation.MatchChangePassword;
 
@@ -11,7 +13,7 @@ import lombok.Data;
 @Data
 @GroupSequence({ChangeUserPasswordDto.class, FirstValidationChangeUserPasswordDto.class, SecondValidationChangeUserPasswordDto.class, ThirdValidationChangeUserPasswordDto.class})
 @MatchChangePassword(groups = ThirdValidationChangeUserPasswordDto.class)
-public class ChangeUserPasswordDto {
+public class ChangeUserPasswordDto implements Serializable {
 
     @NotBlank(message = "El nombre de usuario es obligatorio, intenta nuevamente.", groups = FirstValidationChangeUserPasswordDto.class)
     @ExistUserByUsername(groups = SecondValidationChangeUserPasswordDto.class)

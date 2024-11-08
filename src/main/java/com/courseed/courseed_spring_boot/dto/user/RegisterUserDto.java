@@ -1,5 +1,7 @@
 package com.courseed.courseed_spring_boot.dto.user;
 
+import java.io.Serializable;
+
 import com.courseed.courseed_spring_boot.validator.annotation.AlphabeticalUsername;
 import com.courseed.courseed_spring_boot.validator.annotation.MatchPassword;
 import com.courseed.courseed_spring_boot.validator.annotation.UniqueUserName;
@@ -12,7 +14,7 @@ import lombok.Data;
 @Data
 @GroupSequence({RegisterUserDto.class, FirstValidationRegisterUserDto.class, SecondValidationRegisterUserDto.class, ThirdValidationRegisterUserDto.class, FourthValidationRegisterUserDto.class})
 @MatchPassword(groups = ThirdValidationRegisterUserDto.class)
-public class RegisterUserDto {
+public class RegisterUserDto implements Serializable {
 
     @NotBlank(message = "El nombre de usuario es obligatorio.", groups = FirstValidationRegisterUserDto.class)
     @Size(min = 10, max = 100, message = "Por favor, ingrese un valor entre 10 y 100 caracteres.", groups = SecondValidationRegisterUserDto.class)

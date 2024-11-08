@@ -5,12 +5,14 @@ import com.courseed.courseed_spring_boot.entity.Course;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CourseDto {
+public class CourseDto implements Serializable {
     private Long id;
     private String url;
     private String image;

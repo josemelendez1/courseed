@@ -1,5 +1,7 @@
 package com.courseed.courseed_spring_boot.entity;
 
+import java.io.Serializable;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.Column;
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Transactional
-public class Category {
+public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

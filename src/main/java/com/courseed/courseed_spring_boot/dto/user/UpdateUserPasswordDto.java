@@ -1,5 +1,7 @@
 package com.courseed.courseed_spring_boot.dto.user;
 
+import java.io.Serializable;
+
 import com.courseed.courseed_spring_boot.validator.annotation.CheckAuthPassword;
 import com.courseed.courseed_spring_boot.validator.annotation.MatchUpdatePassword;
 
@@ -11,7 +13,7 @@ import lombok.Data;
 @Data
 @GroupSequence({UpdateUserPasswordDto.class, FirstValidationUpdateUserPasswordDto.class, SecondValidationUpdateUserPasswordDto.class})
 @MatchUpdatePassword(groups = SecondValidationUpdateUserPasswordDto.class)
-public class UpdateUserPasswordDto {
+public class UpdateUserPasswordDto implements Serializable {
     
     @NotBlank(message = "La contraseña actual es obligatoria, intenta nuevamente.", groups = FirstValidationUpdateUserPasswordDto.class)
     @CheckAuthPassword(groups = SecondValidationUpdateUserPasswordDto.class)

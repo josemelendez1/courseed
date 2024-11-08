@@ -1,5 +1,7 @@
 package com.courseed.courseed_spring_boot.dto.comment;
 
+import java.io.Serializable;
+
 import com.courseed.courseed_spring_boot.validator.annotation.ExistComment;
 import com.courseed.courseed_spring_boot.validator.annotation.OnlyCommentCreator;
 
@@ -10,7 +12,7 @@ import lombok.Data;
 
 @Data
 @GroupSequence({ UpdateCommentDto.class, FirstValidationUpdateCommentDto.class, SecondValidationUpdateCommentDto.class })
-public class UpdateCommentDto {
+public class UpdateCommentDto implements Serializable {
 
     @NotBlank(message = "El contenido de un comentario es obligatorio, intente nuevamente.", groups = FirstValidationUpdateCommentDto.class)
     @Size(min = 5, max = 500, message = "Por favor, ingrese un valor entre 5 y 500 caracteres.", groups = SecondValidationUpdateCommentDto.class)

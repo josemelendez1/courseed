@@ -1,5 +1,7 @@
 package com.courseed.courseed_spring_boot.dto.course;
 
+import java.io.Serializable;
+
 import com.courseed.courseed_spring_boot.entity.Institution;
 
 import lombok.AllArgsConstructor;
@@ -9,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class InstitutionDto {
+public class InstitutionDto implements Serializable {
     private String name;
     private int courses;
 

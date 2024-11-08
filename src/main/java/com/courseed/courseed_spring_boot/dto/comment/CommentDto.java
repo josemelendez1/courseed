@@ -1,5 +1,6 @@
 package com.courseed.courseed_spring_boot.dto.comment;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.courseed.courseed_spring_boot.dto.course.CourseDto;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentDto {
+public class CommentDto implements Serializable {
     private String content;
     private UserDto userDto;
     private CourseDto courseDto;
