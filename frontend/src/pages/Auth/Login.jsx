@@ -115,7 +115,7 @@ const Login = () => {
         <>
             <HeadProvider title="Acceso" />
             <main
-                className="relative min-h-screen isolate overflow-hidden"
+                className="relative min-h-screen isolate overflow-hidden font-inter"
             >
                 <div 
                     className="w-full max-w-screen-xl mx-auto grid grid-rows-1 place-items-center lg:gap-20

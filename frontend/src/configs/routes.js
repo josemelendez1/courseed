@@ -23,6 +23,11 @@ const userRoutes = [
         name: "Cursos de Interes",
         layout: "/cursos/interes",
         icon: <Heart className="size-6" />,
+    },
+    {
+        name: "Perfil",
+        layout: "/perfil",
+        icon: <User className="size-6" />
     }
 ];
 
@@ -36,6 +41,11 @@ const adminRoutes = [
         name: "Usuarios",
         layout: "/usuarios",
         icon: <Users className="size-6" />
+    },
+    {
+        name: "Perfil",
+        layout: "/perfil",
+        icon: <User className="size-6" />
     }
 ]
 

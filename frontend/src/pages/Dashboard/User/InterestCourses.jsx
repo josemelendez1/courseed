@@ -91,7 +91,7 @@ const InterestCourses = () => {
     useEffect(() => { window.scrollTo(0, 0) }, []);
 
     return (
-        <div className="flex w-full h-full">
+        <div className="flex w-full h-full font-inter">
             <HeadProvider title="CourSeed - Cursos de Interes" />
             <Sidebar open={open} onClose={() => setOpen(false)} />
             <div className="h-full w-full bg-[#F4F7FE] dark:!bg-[#0b1437]">

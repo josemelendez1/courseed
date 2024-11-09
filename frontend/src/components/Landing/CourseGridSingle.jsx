@@ -129,10 +129,10 @@ const CourseGridSingle = ({
                         >
                             {loading
                                 ? Array(6).fill(1).map((x, i) => (
-                                    <CourseSkeleton key={i} />
+                                    <CourseSkeleton key={i} className="w-[calc(100%-3.5rem)]" />
                                 ))
                                 : courses.map((course, i) => (
-                                    <Course course={course} key={i} className={"my-12"} />
+                                    <Course course={course} key={i} className="my-12" />
                                 ))
                             }
                         </Slider>

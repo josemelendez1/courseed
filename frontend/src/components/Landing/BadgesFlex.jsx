@@ -7,9 +7,9 @@ const BadgesFlex = ({ title = "Categorias Seleccionadas", badges = [], setBadges
         <AnimatePresence mode="wait">
             <motion.div
                 key={badges.length > 0 ? "show" : "empty"}
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
+                initial={{ scale: 0.9, opacity: 0, height: 0, paddingBottom: 0 }}
+                animate={{ scale: 1, opacity: 1, height: "auto", paddingBottom: badges.length > 0 ? 12 : 0 }}
+                exit={{ scale: 0.9, opacity: 0, height: 0, paddingBottom: 0 }}
                 transition={{ duration: 0.2 }}
                 className={className}
             >

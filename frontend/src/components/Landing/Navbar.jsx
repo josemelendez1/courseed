@@ -18,7 +18,7 @@ const Navbar = ({ light = false, className = "" }) => {
                 <Link
                     to="/"
                     className={`
-                        my-2 lg:my-0 mr-6 tracking-wide transition duration-300
+                        my-2 lg:my-0 mr-6 tracking-wide transition duration-300 font-inter
                         pb-1 border-transparent flex items-center font-bold border-b-0 text-2xl ml-0
                         ${light ? 'text-gray-100 hover:text-gray-300 focus:text-gray-300' : 'hover:text-sky-600 focus:text-sky-600'}`
                     }

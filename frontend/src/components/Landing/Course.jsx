@@ -1,7 +1,17 @@
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
+import LazyImage from "./LazyImage";
 
-const Course = ({ course, className, rounded = false, showLike = false, onLike, likeClassName }) => {
+const Course = ({ 
+    course, 
+    className, 
+    rounded = false, 
+    showLike = false, 
+    onLike, 
+    likeClassName,
+    defaultDescription = "Actualmente no hay información disponible sobre este curso. Por favor, vuelve más tarde para obtener detalles actualizados y completos.",
+    descriptionClassName
+}) => {
     return(
         <div 
             className={`group flex flex-col justify-start items-start gap-2 aspect-[2/1] 
@@ -29,11 +39,16 @@ const Course = ({ course, className, rounded = false, showLike = false, onLike, 
                 group-hover:-translate-x-4 -bottom-[2.5rem] -right-[2.5rem] w-1/2 h-1/2 bg-gray-200
                 ${rounded ? "rounded-xl" : "rounded-lg"}`}
             >
-                <img src={`/images/courses/${course.image}`} alt="" className="size-full object-cover" />
+                <LazyImage src={`/images/courses/${course.image}`} className="object-cover w-full h-full" />
             </div>
             <div className="">
                 <h2 className="text-2xl font-bold mb-2 text-gray-800 dark:text-white line-clamp-1" title={course.title}>{course.title}</h2>
-                <p className="text-gray-700 dark:text-white line-clamp-2 lg:line-clamp-3">{course.description}</p>
+                <p className={`text-gray-700 dark:text-white line-clamp-2 lg:line-clamp-3 ${descriptionClassName}`}>
+                    {(course.description && course.description.toLowerCase() !== "no aplica")
+                    ? course.description 
+                    : defaultDescription
+                    }
+                </p>
             </div>
             <Link
                 to={`/curso/${course.id}`}

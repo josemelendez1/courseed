@@ -3,6 +3,7 @@ import SidebarLinks from "./SidebarLinks";
 import { adminRoutes, userRoutes } from "../../configs/routes";
 import { useEffect, useState } from "react";
 import { ROLES } from "../../configs/roles";
+import { Link } from "react-router-dom";
 
 const Sidebar = ({ open, onClose, roles = [] }) => {
 
@@ -27,16 +28,19 @@ const Sidebar = ({ open, onClose, roles = [] }) => {
             >
                 <X  className="size-5" />
             </span>
-            <div className="mx-[56px] mt-[50px] flex items-center ">
+            <Link
+                to="/"
+                className="mx-[56px] mt-[50px] flex items-center"
+            >
                 <img
                     src="/logo.png"
                     alt="logo"
                     className="w-10 h-auto"
                 />
-                <p className="ml-1 text-[26px] font-bold uppercase text-[#1B254B] dark:text-white">
-                    Cour<span className="font-medium">SEED</span>
+                <p className="ml-1 text-[26px] font-bold text-[#1B254B] dark:text-white">
+                    Cour<span className="font-normal">Seed</span>
                 </p>
-            </div>
+            </Link>
             <div className="mt-[38px] mb-[1.75rem] h-px bg-gray-300" />
             <ul className="mb-auto pt-1 ">
                 <SidebarLinks routes={routes} />
