@@ -60,23 +60,28 @@ export const useAuth = () => {
 
 export const useIsAuth = () => {
     const [isAuth, setIsAuth] = useState(null);
+    const {user} = useAuth();
 
     const handleAuth = () => {
-        axios.get(APIS.USER_AUTHENTICATED, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            }
-        })
-        .then(response => {
-            if (typeof response.data === "object") {
-                setIsAuth(true);   
-            } else {
+        if (user) {
+            setIsAuth(true);
+        } else {
+            axios.get(APIS.USER_AUTHENTICATED, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                }
+            })
+            .then(response => {
+                if (typeof response.data === "object") {
+                    setIsAuth(true);   
+                } else {
+                    setIsAuth(false);
+                }
+            })
+            .catch(error => {
                 setIsAuth(false);
-            }
-        })
-        .catch(error => {
-            setIsAuth(false);
-        });
+            });
+        }
     }
 
     useEffect(handleAuth, []);
@@ -85,23 +90,32 @@ export const useIsAuth = () => {
 
 export const useIsAdmin = () => {
     const [isAdmin, setIsAdmin] = useState(null);
+    const {user} = useAuth();
 
     const handleAdmin = () => {
-        axios.get(APIS.USER_AUTHENTICATED, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            }
-        })
-        .then(response => {
+        if (user) {
             setIsAdmin(
-                typeof response.data === "object" && 
-                Array.isArray(response.data.roles) &&
-                response.data.roles.some(c => c.authority === ROLES.ADMIN)
-            )
-        })
-        .catch(error => {
-            setIsAdmin(false);
-        })
+                typeof user === "object" && 
+                Array.isArray(user.roles) &&
+                user.roles.some(c => c.authority === ROLES.ADMIN)
+            );
+        } else {
+            axios.get(APIS.USER_AUTHENTICATED, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                }
+            })
+            .then(response => {
+                setIsAdmin(
+                    typeof response.data === "object" && 
+                    Array.isArray(response.data.roles) &&
+                    response.data.roles.some(c => c.authority === ROLES.ADMIN)
+                )
+            })
+            .catch(error => {
+                setIsAdmin(false);
+            });
+        }
     }
 
     useEffect(handleAdmin, []);
@@ -110,26 +124,35 @@ export const useIsAdmin = () => {
 
 export const useIsUser = () => {
     const [isUser, setIsUser] = useState(null);
+    const {user} = useAuth();
 
     const handleUser = () => {
-        axios.get(APIS.USER_AUTHENTICATED, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            }
-        })
-        .then(response => {
+        if (user) {
             setIsUser(
-                typeof response.data === "object" && 
-                Array.isArray(response.data.roles) &&
-                response.data.roles.some(c => c.authority === ROLES.USER)
-            )
-        })
-        .catch(error => {
-            setIsUser(false);
-        })
+                typeof user === "object" && 
+                Array.isArray(user.roles) &&
+                user.roles.some(c => c.authority === ROLES.USER)
+            );
+        } else {
+            axios.get(APIS.USER_AUTHENTICATED, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                }
+            })
+            .then(response => {
+                setIsUser(
+                    typeof response.data === "object" && 
+                    Array.isArray(response.data.roles) &&
+                    response.data.roles.some(c => c.authority === ROLES.USER)
+                )
+            })
+            .catch(error => {
+                setIsUser(false);
+            });
+        }
     }
 
-    useEffect(handleUser, []);
+    useEffect(handleUser, [user]);
     return isUser;
 }
 
