@@ -55,3 +55,6 @@ build/
 /frontend/npm-debug.log*
 /frontend/yarn-debug.log*
 /frontend/yarn-error.log*
+
+# web scraping
+/scrapy_courseed/logs
