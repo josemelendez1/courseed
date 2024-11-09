@@ -244,7 +244,7 @@ const Users = () => {
     useEffect(() => { window.scrollTo(0, 0) }, []);
 
     return (
-        <div className="flex w-full h-full">
+        <div className="flex w-full h-full font-inter">
             <HeadProvider title="CourSeed - Usuarios" />
             <Sidebar open={open} onClose={() => setOpen(false)} roles={user?.roles} />
             <div className="h-full w-full bg-[#F4F7FE] dark:!bg-[#0b1437]">
@@ -308,7 +308,7 @@ const Users = () => {
                                                             setOrder(ORDERS.ASCENDING);
                                                             setSortableColumn(column.name);
                                                         }}
-                                                        className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3
+                                                        className="group flex w-full items-center gap-2 rounded-lg px-3
                                                         hover:bg-gray-100 dark:hover:bg-white/[0.1] py-2"
                                                     >
                                                         {column.icon}

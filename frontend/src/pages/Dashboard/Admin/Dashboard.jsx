@@ -134,7 +134,7 @@ const Dashboard = () => {
     useEffect(() => { window.scrollTo(0, 0) }, []);
 
     return (
-        <div className="flex w-full h-full">
+        <div className="flex w-full h-full font-inter">
             <HeadProvider title="CourSeed - Administrador" />
             <Sidebar open={open} onClose={() => setOpen(false)} roles={user?.roles} />
             <div className="h-full w-full bg-[#F4F7FE] dark:!bg-[#0b1437]">
