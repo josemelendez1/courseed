@@ -1,17 +1,29 @@
 import { useParams } from "react-router-dom";
 import { HeadProvider } from "../../provider/HeadProvider";
 import HeroWithBackgroundSingle from "../../components/Landing/HeroWithBackgroundSingle";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Footer from "../../components/Landing/Footer";
 import axios from "axios";
 import { ArrowUpWideNarrow, Bookmark, CalendarDays, CircleDollarSign, GraduationCap, Languages } from "lucide-react";
 import AnimationRevealPage from "../../helpers/AnimationRevealPage";
 import Features, { MainFeature, StepsFeature } from "../../components/Landing/Features";
 import { APIS } from "../../configs/apis";
+import Reviews from "../../components/Landing/Reviews";
+import { useAuth } from "../../provider/AuthProvider";
 
-const Course = () => {
+const Course = () => { 
     let { id } = useParams();
+    const { user, setUser } = useAuth();
+    const reviewsPageSize = 6;
     const [course, setCourse] = useState(null);
+    const [reviewsPageNo, setReviewsPageNo] = useState(0);
+    const [reviews, setReviews] = useState([]);
+    const [reviewsLastPage, setReviewsLastPage] = useState(false);
+    const [loadingReviews, setLoadingReviews] = useState(true);
+    const [reviewsIsVisible, setReviewsIsVisible] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
+
+    const reviewsRef = useRef();
 
     const handleCourse = () => {
         if (id) {
@@ -28,8 +40,74 @@ const Course = () => {
         }
     }
 
+    const handleReviews = () => {
+        if (!reviewsIsVisible || reviewsLastPage) return;
+
+        axios.get(APIS.GET_REVIEWS_BY_COURSE, {
+            params: {
+                id: id,
+                pageNo: reviewsPageNo,
+                pageSize: reviewsPageSize
+            }
+        })
+        .then(response => {
+            if (Array.isArray(response.data?.content)) {
+                setReviews(prev => reviewsPageNo === 0 ? response.data.content : [...prev, ...response.data.content]);
+                setReviewsLastPage(response.data?.last);
+            }
+        })
+        .catch(error => setReviews([]))
+        .finally(setTimeout(() => setLoadingReviews(false), 500));
+    }
+
+    const handleIsLiked = () => {
+        if (
+            Array.isArray(user?.likes) &&
+            user.likes.some(c => c.courseId === parseInt(id))
+        ) {
+            setIsLiked(true);
+        }
+    }
+
+    const handleLike = () => {
+        
+        axios.post(APIS.LIKE_COURSE, {
+            courseId: id,
+            like: !isLiked
+        })
+            .then(response => {
+                const data = response?.data;
+                if (typeof data === "object") {
+                    setUser({
+                        ...user,
+                        likes: isLiked 
+                            ? user.likes.filter(course => course.courseId !== parseInt(id)) 
+                            : [...user.likes, {courseId: parseInt(id), like: true } ]
+                    });
+                    setIsLiked(!isLiked);
+                }
+            });
+    }
+
     useEffect(() => { window.scrollTo(0, 0) }, []);
     useEffect(handleCourse, [id]);
+    useEffect(handleReviews, [id, reviewsPageNo, reviewsPageSize, reviewsIsVisible, reviewsLastPage]);
+    useEffect(() => {
+        const observer = new IntersectionObserver(entries => {
+            const [entry] = entries;
+            if (entry.isIntersecting) {
+                setReviewsIsVisible(true);
+                observer.disconnect();
+            }
+        });
+
+        if (reviewsRef.current) observer.observe(reviewsRef.current);
+
+        return () => {
+            if (observer) observer.disconnect();
+        }
+    }, [reviewsRef]);
+    useEffect(handleIsLiked, [user, id]);
 
     const cards = [
         {
@@ -74,6 +152,8 @@ const Course = () => {
                 bgImage={course?.image ? `/images/courses/${course?.image}` : "/pexels-julia-m-cameron-4144923.jpg"}
                 video={course?.video}
                 link={course?.url}
+                isLiked={isLiked}
+                onLike={handleLike}
             />
             <AnimationRevealPage>
                 <MainFeature 
@@ -100,6 +180,19 @@ const Course = () => {
                             } 
                             : content
                     })}
+                />
+                <Reviews 
+                    courseId={id}
+                    reviews={reviews}
+                    reviewsRef={reviewsRef}
+                    loading={loadingReviews}
+                    subTitle="Lo que opinan"
+                    title="Reseñas del Curso"
+                    isLastPage={reviewsLastPage}
+                    setReviews={(reviews) => setReviews(reviews)}
+                    handlePagination={() => {
+                        if (!reviewsLastPage) setReviewsPageNo(reviewsPageNo + 1);
+                    }}
                 />
                 <Footer />
             </AnimationRevealPage>

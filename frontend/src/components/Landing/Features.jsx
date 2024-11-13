@@ -109,7 +109,7 @@ const StepsFeature = ({
     return (
         <div className="relative">
             <div className="flex flex-col md:flex-row justify-between max-w-screen-xl mx-auto py-20 md:py-24 items-center">
-                <div className="w-full max-w-md mx-auto md:max-w-none md:mx-0 md:w-6/12 mt-16 md:mt-0 md:ml-12 lg:ml-16 md:order-last">
+                <div className="w-full max-w-md mx-auto md:max-w-none md:mx-0 md:w-6/12 mt-16 md:mt-0 md:ml-12 lg:ml-16 order-last">
                     <div className="lg:py-8 text-center md:text-left">
                         <h5 className="font-bold text-primary-500 mb-4 uppercase tracking-widest text-sky-600">
                             {subTitle}
@@ -137,6 +137,7 @@ const StepsFeature = ({
                     <img src="/undraw_project_completed_re_jr7u.svg" alt="Imagen de pasos" className="md:max-w-[90%]" />
                 </div>
             </div>
+            <img src="/svg-decorator-blob-7.svg" alt="blob" className="pointer-events-none -z-20 absolute left-0 bottom-0 h-64 w-64 opacity-25 transform -translate-x-1/2 translate-y-1/2" />
         </div>
     );
 }

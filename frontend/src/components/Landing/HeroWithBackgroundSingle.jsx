@@ -1,7 +1,8 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import AnimationRevealPage from "../../helpers/AnimationRevealPage";
 import Navbar from "./Navbar";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Heart } from "lucide-react";
+import { useAuth } from "../../provider/AuthProvider";
 
 const container = {
     hidden: { y: 20, opacity: 0 },
@@ -21,8 +22,13 @@ const HeroWithBackgroundSingle = ({
     bgImage = "/pexels-julia-m-cameron-4144923.jpg",
     video = false,
     link = "/",
-    defaultSubtitle = "Actualmente no hay información disponible sobre este curso. Por favor, vuelve más tarde para obtener detalles actualizados y completos."
+    defaultSubtitle = "Actualmente no hay información disponible sobre este curso. Por favor, vuelve más tarde para obtener detalles actualizados y completos.",
+    isLiked,
+    onLike = () => {} 
 }) => {
+
+    const { user } = useAuth();
+
     return (
         <motion.div
             variants={container}
@@ -45,20 +51,40 @@ const HeroWithBackgroundSingle = ({
                             </p>
                             <h1 className="text-3xl text-center lg:text-left sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-100">
                                 <span title={title} className="line-clamp-2">{title}</span>
-                                <span title={titleMarked} className="relative text-sky-600 px-4 -mx-4 py-1 before:content-[''] before:absolute before:inset-0 before:bg-gray-100 before:transform before:-skew-x-12 before:-z-10">
-                                    {titleMarked}
-                                </span>
+                                <div className="mx-auto lg:mx-0 w-[max-content] max-w-full relative text-sky-600 px-4 py-1 before:content-[''] before:absolute before:inset-0 before:bg-gray-100 before:transform before:-skew-x-12 before:-z-10">
+                                    <p title={titleMarked} className="truncate">
+                                        {titleMarked}
+                                    </p>
+                                </div>
                             </h1>
-                            <a
-                                href={link}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="hidden sm:inline-flex px-10 py-4 text-lg truncate font-medium rounded-full sm:items-center sm:gap-2 bg-white text-sky-700 hover:bg-sky-700 focus:bg-sky-700 
-                                hover:text-gray-200 focus:text-gray-200 focus:shadow-outline focus:outline-none transition duration-300 mt-16"
-                            >
-                                <span>Visitar sitio oficial</span>
-                                <ExternalLink className="size-5" />
-                            </a>
+                            <div className="mt-16 flex items-center justify-start gap-x-2 lg:gap-x-4">    
+                                <a
+                                    href={link}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="inline-flex items-center gap-x-1 px-10 py-4 text-lg truncate font-medium rounded-full sm:items-center sm:gap-2 bg-white text-sky-700 hover:bg-sky-700 focus:bg-sky-700 
+                                    hover:text-gray-200 focus:text-gray-200 focus:shadow-outline focus:outline-none transition duration-300"
+                                >
+                                    <span>Visitar sitio oficial</span>
+                                    <ExternalLink className="size-5" />
+                                </a>
+                                <AnimatePresence mode="wait">
+                                    <motion.div
+                                        key={user ? "show" : "hide"}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: 20 }}
+                                    >
+                                        { user && (
+                                            <Heart 
+                                                onClick={onLike}
+                                                fill={ isLiked ? "#fff" : "transparent"}
+                                                className="size-8 text-white cursor-pointer " 
+                                            />
+                                        )}
+                                    </motion.div>
+                                </AnimatePresence>
+                            </div>
                         </div>
                         <div className="w-full mt-16 lg:mt-0">
                             { video ? (

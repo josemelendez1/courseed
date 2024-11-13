@@ -20,7 +20,7 @@ const Dropdown = ({ button, children, classNames, animation }) => {
 
     return (
         <div ref={wrapperRef} className="relative flex">
-            <div className="flex" onMouseDown={() => setOpenWrapper(!openWrapper)}>
+            <div className="flex items-center" onMouseDown={() => setOpenWrapper(!openWrapper)}>
                 {button}
             </div>
             <div

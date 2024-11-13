@@ -27,7 +27,7 @@ const Dashboard = () => {
     const [totalInstitutions, setTotalInstitutions] = useState(0);
     const [totalUsers, setTotalUsers] = useState(0);
     const [totalLikedCourses, setTotalLikedCourses] = useState(0);
-    const [totalComments, setTotalComments] = useState(0);
+    const [totalReviews, setTotalReviews] = useState(0);
     const [coursesByLikes, setCoursesByLikes] = useState([]);
     const [institutionsByCourses, setInstitutionsByCourses] = useState([]);
     const [pageNo, setPageNo] = useState(0);
@@ -78,9 +78,13 @@ const Dashboard = () => {
         });
     }
 
-    const handleComments = () => {
-        axios.get(APIS.GET_COMMENTS).then(response => {
-            if (typeof response.data?.totalElements === "number") setTotalComments(response.data.totalElements);
+    const handleReviews = () => {
+        axios.get(APIS.GET_REVIEWS)
+        .then(response => {
+            if (typeof response.data?.totalElements === "number") setTotalReviews(response.data.totalElements);
+        })
+        .catch(error => {
+            setTotalReviews(0);
         });
     }
 
@@ -127,7 +131,7 @@ const Dashboard = () => {
     useEffect(handleCategories, []);
     useEffect(handleInstitutions, []);
     useEffect(handleUsers, []);
-    useEffect(handleComments, []);
+    useEffect(handleReviews, []);
     useEffect(handleLikedCourses, []);
     useEffect(handleCoursesByLikes, []);
     useEffect(handleInstitutionsByCourses, []);
@@ -163,7 +167,7 @@ const Dashboard = () => {
                                 <StatsCard title="Instituciones" icon={<School className="size-6" />} subtitle={totalInstitutions} />
                                 <StatsCard title="Usuarios" icon={<Users className="size-6" />} subtitle={totalUsers} />
                                 <StatsCard title="Cursos de Interes" icon={<Heart className="size-6" />} subtitle={`${totalLikedCourses} / ${totalCourses}`} />
-                                <StatsCard title="Opiniones" icon={<MessageCircle className="size-6" />} subtitle={totalComments} />
+                                <StatsCard title="Reseñas" icon={<MessageCircle className="size-6" />} subtitle={totalReviews} />
                             </div>
                             <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-[62.5%_1fr]">
                                 <BarChart
@@ -173,9 +177,11 @@ const Dashboard = () => {
                                             id: c?.id,
                                             title: truncateText(c?.title),
                                             Interesados: c?.likes,
+                                            Reseñas: c?.reviews
                                         }
                                     })}
-                                    categories={["Interesados"]}
+                                    indexesWithFullText={coursesByLikes.map(c => c?.title)}
+                                    categories={["Interesados", "Reseñas"]}
                                     index="title"
                                 />
                                 <PieChart 

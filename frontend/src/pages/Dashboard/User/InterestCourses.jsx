@@ -27,11 +27,13 @@ const containerCourses = {
             staggerChildren: 0.2
         }
     },
+    exit: { x: 10, opacity: 0 }
 } 
 
 const item = {
     hidden: { x: -10, opacity: 0 },
-    visible: { x: 0, opacity: 1 }
+    visible: { x: 0, opacity: 1 },
+    exit: { x: 10, opacity: 0 }
 }
 
 const InterestCourses = () => {
@@ -58,15 +60,10 @@ const InterestCourses = () => {
                 setLikedCourses(response.data?.content.map(c => {
                     return {...c, isLike: true };
                 }));
-
-                setTimeout(() => {
-                    setLoading(false);
-                }, 500);
+                setTimeout(() => setLoading(false), 500);
             }   
         })
-        .catch(error => {
-
-        });
+        .catch(error => setLikedCourses([]));
     }
 
     const handleDisLike = (course) => {
@@ -104,19 +101,19 @@ const InterestCourses = () => {
                             search={search}
                             setSearch={(value) => setSearch(value)}
                         />
-                        <AnimatePresence>
+                        <AnimatePresence mode="wait">
                             <motion.div
                                 key={loading ? "skeleton" : "data"}
                                 variants={containerCourses}
                                 initial="hidden"
                                 animate="visible"
-                                exit={{ x: 10, opacity: 0 }}
+                                exit="exit"
                                 className={`mt-5 grid h-full min-h-[90vh] grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 
                                 content-start ${!loading && "gap-y-16 pb-12"}`}
                             >
                                 { !loading ? (likedCourses.filter(handleSearch).map((course, i) => (
                                     <motion.div 
-                                        key={i} 
+                                        key={course.title} 
                                         variants={item}
                                     >
                                         <Course  

@@ -43,6 +43,7 @@ const AuthProvider = ({ children }) => {
           handleToken,
           user,
           handleUser,
+          setUser,
           loading,
           setLoading
         }),
@@ -84,7 +85,7 @@ export const useIsAuth = () => {
         }
     }
 
-    useEffect(handleAuth, []);
+    useEffect(handleAuth, [user]);
     return isAuth;
 }
 
@@ -118,7 +119,7 @@ export const useIsAdmin = () => {
         }
     }
 
-    useEffect(handleAdmin, []);
+    useEffect(handleAdmin, [user]);
     return isAdmin;
 }
 

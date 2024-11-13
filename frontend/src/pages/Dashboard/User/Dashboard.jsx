@@ -60,11 +60,10 @@ const Dashboard = () => {
             }
         })
         .then(response => {
-            if (Array.isArray(response.data?.content)) {
-                setRecentCourses(response.data?.content);
-                setTimeout(() => {
-                    setLoadingRecentCourses(false);
-                }, 500);
+            const data = response.data?.content;
+            if (Array.isArray(data)) {
+                setRecentCourses(data);
+                setTimeout(() => setLoadingRecentCourses(false), 500);
             }
         });
     }
@@ -92,17 +91,21 @@ const Dashboard = () => {
         if (bottom) setPageNo(pageNo + 1);
     }
 
-    const updateLikesInCourses = () => {
-        if (typeof user === "object") {
+    const handleIsLike = () => {
+        if (typeof user === "object" && Array.isArray(user?.likes) && !loadingRecentCourses) {
             setRecentCourses(prev => prev.map(course => {
-                return { ...course, isLike: Array.isArray(user?.likes) && user?.likes.some(c => c.courseId === course.id) }
+                if (user.likes.some(c => c.courseId === course.id)) {
+                    return { ...course, isLike: true }
+                } else {
+                    return course;
+                }
             }));
         }
     }
 
     useEffect(handleCourses, [pageNo, search]);
-    useEffect(handleRecentCourses, []);
-    useEffect(updateLikesInCourses, [user]);
+    useEffect(handleRecentCourses, [user]);
+    useEffect(handleIsLike, [user, loadingRecentCourses]);
     useEffect(() => { window.scrollTo(0, 0) }, []);
 
     return (

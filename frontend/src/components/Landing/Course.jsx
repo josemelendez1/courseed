@@ -19,19 +19,15 @@ const Course = ({
             hover:-translate-y-2 hover:shadow-xl shadow-gray-300 rounded-${rounded ? "[20px]" : "lg"} ${className}`}
         >
             { showLike &&
-                <button
-                    onClick={() => onLike(course)}
-                    className={`opacity-0 group-hover:opacity-100 absolute top-[0.75rem] right-[0.75rem] flex items-center 
-                    justify-center rounded-full p-2 hover:cursor-pointer transition-all duration-200
-                    ${course.isLike 
-                        ? "text-white bg-sky-600 hover:bg-sky-700 dark:bg-sky-700" 
-                        : "text-sky-600 bg-white hover:bg-gray-100 dark:bg-[#111c44]"
-                    } 
-                    ${likeClassName}`
-                    }
-                >
-                    <Heart />
-                </button>
+                <Heart 
+                    fill={course.isLike ? "#0284c7" : "transparent"}    
+                    onClick={() => onLike(course)} 
+                    className={`
+                        text-sky-600 absolute top-[0.75rem] right-[0.75rem] ${likeClassName}
+                        cursor-pointer transition-all duration-200
+                    `}
+                    
+                />
             }
             <div 
                 alt="image here" 
@@ -124,15 +120,20 @@ const CourseVertical = ({ course, className, onLike, showLike}) => {
                         className="mb-3 h-full w-full rounded-xl 2xl:h-full 2xl:w-full" 
                     />
                     { showLike &&
-                        <button
-                            onClick={() => onLike(course)}
-                            className={`absolute top-[0.75rem] right-[0.75rem] flex items-center 
-                            justify-center rounded-full p-2 hover:cursor-pointer
-                            transition-all duration-200
-                            ${course.isLike ? "text-white bg-sky-600 hover:bg-sky-700 dark:bg-sky-700" : "text-sky-600 bg-white hover:bg-gray-100 dark:bg-[#111c44]"}`}
-                        >
-                            <Heart />
-                        </button>
+                        <Heart 
+                            onClick={() => onLike(course)} 
+                            fill={course.isLike ? "#0284c7" : "transparent"}
+                            className="absolute top-[0.75rem] right-[0.75rem] hover:cursor-pointer text-sky-600" 
+                        />
+
+                        // <button
+                        //     onClick={() => onLike(course)}
+                        //     className={`absolute top-[0.75rem] right-[0.75rem] flex items-center 
+                        //     justify-center rounded-full p-2 hover:cursor-pointer
+                        //     transition-all duration-200
+                        //     ${course.isLike ? "text-white bg-sky-600 hover:bg-sky-700 dark:bg-sky-700" : "text-sky-600 bg-white hover:bg-gray-100 dark:bg-[#111c44]"}`}
+                        // >
+                        // </button>
                     }
                 </div>
                 <div 

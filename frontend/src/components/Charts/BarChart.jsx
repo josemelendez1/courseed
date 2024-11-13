@@ -15,8 +15,50 @@ const BarChart = ({
     data = [],
     categories = [],
     index = "",
-    className
+    className,
+    indexesWithFullText = []
 }) => {
+
+    const customTooltip = ({ payload, active, label }) => {
+        if (!active || !payload) return null;
+
+        const fullLabel = () => {
+            if (label.endsWith("...")) {
+                return indexesWithFullText.find(index => index.includes(label.replace("...", "")));
+            } else {
+                return label;
+            }
+        } 
+    
+        return (
+            <>
+                <div className="w-[15rem] rounded-md border border-gray-500/10 bg-sky-600 px-4 py-1.5 text-sm shadow-md dark:border-gray-400/25 dark:bg-gray-950">
+                    <p className="font-medium text-gray-50 dark:text-gray-50">
+                        {fullLabel()}
+                    </p>
+                </div>
+                <div className="mt-1 w-[15rem] space-y-1 rounded-md border border-gray-500/10 bg-white px-4 py-2 text-sm shadow-md dark:border-gray-400/25 dark:bg-gray-900">
+                    { payload.map((item, index) => (
+                        <div key={index} className="flex items-center space-x-[0.625rem]">
+                            <span
+                                className={`bg-${item.color} size-[0.625rem] shrink-0 rounded-sm`}
+                                aria-hidden={true}
+                            ></span>
+                            <div className="flex w-full justify-between">
+                                <span className=" text-gray-700 dark:text-gray-300">
+                                    {item.dataKey}
+                                </span>
+                                <span className="font-medium text-gray-900 dark:text-gray-50">
+                                    {item.value}
+                                </span> 
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </>
+        );
+    }
+
     return (
         <div
             className={`!z-[5] relative flex flex-col bg-white bg-clip-border 
@@ -56,6 +98,7 @@ const BarChart = ({
                                 allowDecimals={false}
                                 noDataText="Sin información"
                                 className="h-80"
+                                customTooltip={customTooltip}
                             />
                         ) : (
                             <div className="w-full flex items-center justify-center h-80">

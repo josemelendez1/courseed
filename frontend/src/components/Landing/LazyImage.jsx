@@ -40,7 +40,7 @@ const LazyImage = ({ src, className, width = 300, heigth = 190 }) => {
     }, [src, width, heigth, isVisible]);
 
     return (
-        <div ref={divRef} className="relative w-full h-full overflow-hidden">
+        <div ref={divRef} className={`relative w-full h-full overflow-hidden ${ className }`}>
             <motion.div
                 initial={{
                     opacity: 0,

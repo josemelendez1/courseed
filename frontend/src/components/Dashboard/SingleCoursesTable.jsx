@@ -5,6 +5,7 @@ import { APIS } from "../../configs/apis";
 import { Heart, LoaderCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import LazyImage from "../Landing/LazyImage";
 
 const container = {
     hidden: {
@@ -125,10 +126,11 @@ const SingleCoursesTable = ({
                                                 className="w-full group"
                                             >
                                                 <div className="w-full truncate flex items-center gap-3">
-                                                    <img
-                                                        src={`/images/courses/${course.image}`}
-                                                        alt="Imagen de curso"
-                                                        className="w-10 h-10 rounded-md object-cover"
+                                                    <LazyImage 
+                                                        width={200}
+                                                        heigth={90}
+                                                        src={`/images/courses/${course.image}`} 
+                                                        className="!w-10 min-w-[2.5rem] !h-10 rounded-md object-cover" 
                                                     />
                                                     <p className="text-base text-gray-900 font-medium truncate group-hover:underline dark:text-white" title={course.title}>
                                                         {course.title}
@@ -139,7 +141,7 @@ const SingleCoursesTable = ({
                                         <td className="max-w-0 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
                                             <div className="w-full flex items-center justify-end gap-1 text-base text-gray-400 font-medium">
                                                 <span className="truncate">{course.likes}</span>
-                                                <Heart className="size-6 text-sky-600 dark:text-sky-700" />
+                                                <Heart fill="#0284c7" className="size-6 text-sky-600" />
                                             </div>
                                         </td>
                                     </motion.tr>

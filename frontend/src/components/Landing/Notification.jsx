@@ -4,7 +4,8 @@ const Notification = ({
     onClose = () => {}, 
     title = "Update available",
     description = "A new software version is available for download.",
-    className = "" 
+    className,
+    icon = <Check className="size-4" />
 }) => {
     return (
         <div 
@@ -13,11 +14,11 @@ const Notification = ({
         >
             <div className="flex">
                 <div 
-                    className="inline-flex items-center justify-center flex-shrink-0 
+                    className="flex items-center justify-center flex-shrink-0 
                     w-8 h-8 text-blue-500 bg-blue-100 rounded-full dark:text-blue-300 
                     dark:bg-blue-900"
                 >
-                    <Check className="size-4" />
+                    {icon} 
                 </div>
                 <div className="ms-3 text-sm font-normal">
                     <span className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">

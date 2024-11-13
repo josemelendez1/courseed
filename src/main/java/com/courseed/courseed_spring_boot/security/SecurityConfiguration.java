@@ -42,6 +42,7 @@ public class SecurityConfiguration {
             .requestMatchers("/api/courses/course").permitAll()
             .requestMatchers("/api/categories").permitAll()
             .requestMatchers("/api/institutions").permitAll()
+            .requestMatchers("/api/reviews/course").permitAll()
             .anyRequest().authenticated()
         ).formLogin(Customizer.withDefaults());
         return http.build();

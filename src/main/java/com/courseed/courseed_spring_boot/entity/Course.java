@@ -69,7 +69,7 @@ public class Course implements Serializable {
 
     @JsonBackReference
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Comment> comments;
+    private List<Review> reviews;
 
     @JsonBackReference
     @OneToOne(mappedBy = "course", fetch = FetchType.LAZY)

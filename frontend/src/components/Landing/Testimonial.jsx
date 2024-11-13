@@ -1,35 +1,69 @@
-import { ArrowLeft, ArrowRight, Star } from "lucide-react";
-import { useState } from "react";
+import axios from "axios";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
+import { APIS } from "../../configs/apis";
+import { Rating } from "./Reviews";
+import Avatar from "./Avatar";
 
 const Testimonial = () => {
-    
+    const pageSize = 6;
+    const direction = -1;
+    const containerRef = useRef();
     const [sliderRef, setSliderRef] = useState(null);
-    const [testimonials, setTestimonials] = useState([
+    const [isVisible, setIsVisible] = useState(false);
+    const [reviews, setReviews] = useState([
         {
-          stars: 5,
-          profileImageSrc:
-            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3.25&w=512&h=512&q=80",
-          heading: "Aprendí y Crecí con Estos Cursos",
-          quote:
-            "Este curso ha sido una experiencia transformadora. Los materiales son completos y los instructores muy profesionales. Gracias a ellos, ahora tengo más confianza y habilidades para avanzar en mi carrera.",
-          customerName: "Charlotte Hale",
-          customerTitle: "CEO, Delos Inc."
+            rating: 5,
+            description: "Este curso ha sido una experiencia transformadora. Los materiales son completos y los instructores muy profesionales. Gracias a ellos, ahora tengo más confianza y habilidades para avanzar en mi carrera.",
+            username: "Charlotte Hale"
         },
         {
-          stars: 5,
-          profileImageSrc:
-            "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=512&h=512&q=80",
-          heading: "Transformé mi carrera gracias a este curso, una experiencia invaluable.",
-          quote:
-            "ste curso ha cambiado mi forma de ver mi carrera profesional. Los temas son actuales y aplicables. Las actividades prácticas me permitieron poner en práctica lo aprendido de inmediato. Además, la comunidad de estudiantes es increíble, siempre apoyándose mutuamente. Recomiendo este curso a cualquier persona que quiera crecer.",
-          customerName: "Adam Cuppy",
-          customerTitle: "Founder, EventsNYC"
+            rating: 5,
+            description: "Este curso ha cambiado mi forma de ver mi carrera profesional. Los temas son actuales y aplicables. Las actividades prácticas me permitieron poner en práctica lo aprendido de inmediato. Además, la comunidad de estudiantes es increíble, siempre apoyándose mutuamente.",
+            username: "Adam Cuppy"
         }
     ]);
 
+    const getTitle = (review) => {
+        return `${review.description.split(" ").slice(0, 6).join(" ")}...`;
+    } 
+
+    const handleReviews = () => {
+        if (!isVisible) return;
+
+        axios.get(APIS.GET_REVIEWS, {
+            params: {
+                pageSize: pageSize, 
+                direction: direction,
+            }
+        })
+        .then(response => {
+            if (Array.isArray(response?.data?.content)) setReviews(response.data.content);
+        });
+    }
+
+    useEffect(handleReviews, [isVisible, pageSize, direction]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(entries => {
+            const [entry] = entries;
+            if (entry.isIntersecting) {
+                setIsVisible(true);
+                observer.disconnect();
+            }
+        });
+
+        if (containerRef.current) observer.observe(containerRef.current);
+
+        return () => {
+            if (observer) observer.disconnect();
+        }
+
+    }, [sliderRef]);
+
     return (
-        <div className="relative">
+        <div ref={containerRef} className="relative">
             <div className="max-w-screen-xl mx-auto py-20 lg:py-24">
                 <div className="flex flex-col md:flex-row justify-between items-center">
                     <div className="w-full max-w-md mx-auto md:max-w-none md:mx-0 md:w-5/12 xl:w-6/12 flex-shrink-0 relative">
@@ -46,23 +80,20 @@ const Testimonial = () => {
                             Descubre lo que nuestros estudiantes dicen sobre sus experiencias, logros y cómo nuestros cursos han transformado su aprendizaje y crecimiento personal.
                         </p>
                         <Slider infinite={true} slidesToShow={1} slidesToScroll={1} ref={setSliderRef} className="w-full mt-10 text-center md:text-left">
-                            {testimonials.map((testimonial, i) => (
+                            {reviews.map((review, i) => (
                                 <div key={i} className="outline-none h-full flex flex-col">
-                                    <div>
-                                        {Array.from({ length: testimonial.stars }).map((_,indexIcon) => (
-                                            <Star key={indexIcon} className="inline-block w-5 h-5 text-orange-400 fill-current mr-1 last:mr-0" />
-                                        ))}
+                                    <div className="flex items-center justify-center md:justify-start">
+                                        <Rating rating={review.rating} />
                                     </div>
-                                    <div className="mt-4 text-xl font-bold">{testimonial.heading}</div>
+                                    <div className="mt-4 text-xl font-bold">{ getTitle(review) }</div>
                                     <blockquote className="mt-4 mb-8 sm:mb-10 leading-relaxed font-medium text-gray-700">
-                                        {testimonial.quote}
+                                        {review.description}
                                     </blockquote>
                                     <div className="mt-auto flex justify-between items-center flex-col sm:flex-row">
                                         <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start">
-                                            <img src={testimonial.profileImageSrc} alt={testimonial.customerName} className="rounded-full w-16 h-16 sm:w-20 sm:h-20" /> 
+                                            <Avatar username={review.username} className="rounded-full w-16 h-16 sm:w-20 sm:h-20" />
                                             <div className="text-center md:text-left sm:ml-6 mt-2 sm:mt-0">
-                                                <h5 className="font-bold text-xl">{testimonial.customerName}</h5>
-                                                <p className="font-bold text-xl">{testimonial.customerTitle}</p>
+                                                <h5 className="font-bold text-xl">{review.username}</h5>
                                             </div>
                                         </div>
                                         <div className="flex mt-8 sm:mt-0">

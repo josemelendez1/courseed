@@ -18,5 +18,10 @@ export const APIS = Object.freeze({
     LIKE_COURSE: "/api/courses/course/like",
     COURSES_BY_LIKES: "/api/courses/likes",
     INSTITUTIONS_BY_COURSES: "/api/institutions/courses",
-
+    GET_REVIEWS: "/api/reviews",
+    GET_REVIEWS_BY_COURSE: "/api/reviews/course",
+    GET_REVIEW_BY_AUTH: "/api/reviews/course/auth",
+    CREATE_REVIEW: "/api/reviews/create",
+    UPDATE_REVIEW: "/api/reviews/update",
+    DELETE_REVIEW: "/api/reviews/delete",
 });

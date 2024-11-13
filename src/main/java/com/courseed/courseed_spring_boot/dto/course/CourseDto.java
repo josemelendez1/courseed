@@ -26,6 +26,7 @@ public class CourseDto implements Serializable {
     private AboutDto about;
     private List<ContentDto> contents;
     private int likes;
+    private int reviews;
 
     public static CourseDto fromEntity(Course course) {
         CourseDto courseDto = new CourseDto(
@@ -41,7 +42,8 @@ public class CourseDto implements Serializable {
             course.getInstitution().getName(),
             AboutDto.fromEntity(course.getAbout()),
             course.getContents().stream().map(ContentDto::fromEntity).toList(),
-            course.getInterestedUsers().size()
+            course.getInterestedUsers().size(),
+            course.getReviews().size()
         );
         
         return courseDto;

@@ -63,6 +63,7 @@ const Login = () => {
                 }
             })
             .catch(error => {
+                console.log(error);
                 if (error.response?.data) {
                     if (error.response.data.token) {
                         setForm({
